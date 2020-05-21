@@ -48,12 +48,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <com.tut.mytikunstructure.view.customview.TouchableTextView
                     android:id="@+id/decorativeText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#0f2"
-                    android:text="@string/raw_text"
+                    android:textColor="#fff"
                     android:textSize="18sp" />
             </LinearLayout>
         </ScrollView>

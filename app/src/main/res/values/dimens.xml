@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="font_size">18sp</dimen>
+    <dimen name="font_bigger_size">19sp</dimen>
+    <dimen name="simple_font_size">@dimen/font_size</dimen>
+    <dimen name="simple_bigger_font_size">@dimen/font_bigger_size</dimen>
+    <dimen name="decorative_font_size">@dimen/font_size</dimen>
+    <dimen name="decorative_bigger_font_size">@dimen/font_bigger_size</dimen>
+    <dimen name="list_item_font_size">@dimen/font_size</dimen>
+    <dimen name="list_item_bigger_font_size">@dimen/font_bigger_size</dimen>
+
+</resources>
