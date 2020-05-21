@@ -1,80 +1,59 @@
 package com.tut.mytikunstructure.view.customview
 
 import android.content.Context
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.BackgroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.util.AttributeSet
-import android.util.Log
-import android.view.GestureDetector
-import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.GestureDetectorCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.tut.mytikunstructure.R
 
 class MarkableTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    private var gestureDetector: GestureDetectorCompat
-    private var longPressOnIndex:MutableLiveData<Int>? = null
+    var spannableString: SpannableString? = null
+    var backgroundSpan: BackgroundColorSpan
+    val fontSizeSpan = RelativeSizeSpan(1.2f)
 
     init {
+        backgroundSpan = BackgroundColorSpan(resources.getColor(R.color.textBackgroundColor))
+    }
 
-        gestureDetector = GestureDetectorCompat(context, object : GestureDetector.OnGestureListener{
-            override fun onShowPress(e: MotionEvent?) {
-            }
+    override fun setText(text: CharSequence?, type: BufferType?) {
+        spannableString = SpannableString(text)
+        super.setText(spannableString, type)
+    }
 
-            override fun onSingleTapUp(e: MotionEvent?): Boolean {
-                return false
-            }
-
-            override fun onDown(e: MotionEvent?): Boolean {
-                return true
-            }
-
-            override fun onFling(
-                e1: MotionEvent?,
-                e2: MotionEvent?,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                return false
-            }
-
-            override fun onScroll(
-                e1: MotionEvent?,
-                e2: MotionEvent?,
-                distanceX: Float,
-                distanceY: Float
-            ): Boolean {
-                return false
-            }
-
-            override fun onLongPress(event: MotionEvent?) {
-                event?.let {
-                    val index = touchIndex(it.x, it.y)
-                    Log.d("####", "##### index $index")
-                    longPressOnIndex?.value = index
+    fun setLiveMark(lifecycleOwner: LifecycleOwner, mark: LiveData<Pair<Int, Int>?>?){
+        mark?.observe(lifecycleOwner, Observer {
+            it?.let {range->
+                if(range.first == -1 && range.second == -1) {
+                    clearMark()
+                }else{
+                    markText(range.first, range.second)
                 }
             }
         })
-
-        setOnTouchListener { v, event ->
-            if (gestureDetector.onTouchEvent(event)) {
-                true
-            } else {
-                false
-            }
-        }
     }
 
-    fun setLiveLongPressIndexListener(alongPressOnIndex:MutableLiveData<Int>){
-        longPressOnIndex = alongPressOnIndex
+    fun clearMark(){
+        spannableString?.removeSpan(backgroundSpan)
+        spannableString?.removeSpan(fontSizeSpan)
     }
 
-    private fun touchIndex( x:Float,  y:Float):Int{
-        val line: Int = layout.getLineForVertical(y.toInt())
-        val offset: Int = layout.getOffsetForHorizontal(line, x)
-        return offset
+    fun markText(start: Int, end: Int) {
+        if(start < 0 || end < 0 || start >= text.length || end >= text.length || start >= end) return
+
+        spannableString?.removeSpan(backgroundSpan)
+        spannableString?.removeSpan(fontSizeSpan)
+        spannableString?.setSpan(backgroundSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        spannableString?.setSpan(fontSizeSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        text = spannableString
     }
 
 
