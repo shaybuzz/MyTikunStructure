@@ -34,11 +34,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.tut.mytikunstructure.view.customview.MarkableTextView
+                <com.tut.mytikunstructure.view.customview.MarkableTouchableTextView
                     android:id="@+id/simpleText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#fff"
+                    android:text="@string/raw_text"
                     android:lineSpacingExtra="6dp"
                     android:textSize="18sp" />
             </LinearLayout>

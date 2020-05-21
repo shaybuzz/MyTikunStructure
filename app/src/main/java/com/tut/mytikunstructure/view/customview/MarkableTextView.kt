@@ -12,13 +12,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.tut.mytikunstructure.R
 
-class MarkableTextView @JvmOverloads constructor(
+open class MarkableTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     var spannableString: SpannableString? = null
     var backgroundSpan: BackgroundColorSpan
-    val fontSizeSpan = RelativeSizeSpan(1.2f)
+    //val fontSizeSpan = RelativeSizeSpan(1.2f)   // not sure if looking good
 
     init {
         backgroundSpan = BackgroundColorSpan(resources.getColor(R.color.textBackgroundColor))
@@ -43,16 +43,16 @@ class MarkableTextView @JvmOverloads constructor(
 
     fun clearMark(){
         spannableString?.removeSpan(backgroundSpan)
-        spannableString?.removeSpan(fontSizeSpan)
+        //spannableString?.removeSpan(fontSizeSpan)
     }
 
     fun markText(start: Int, end: Int) {
         if(start < 0 || end < 0 || start >= text.length || end >= text.length || start >= end) return
 
         spannableString?.removeSpan(backgroundSpan)
-        spannableString?.removeSpan(fontSizeSpan)
+        //spannableString?.removeSpan(fontSizeSpan)
         spannableString?.setSpan(backgroundSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        spannableString?.setSpan(fontSizeSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+       //spannableString?.setSpan(fontSizeSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
         text = spannableString
     }
 
