@@ -5,10 +5,9 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
 import android.text.style.RelativeSizeSpan
-import android.util.Log
-import android.view.*
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.GestureDetectorCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tut.mytikunstructure.R
 import com.tut.mytikunstructure.databinding.DecoratedTextFragmentBinding
@@ -16,8 +15,8 @@ import com.tut.mytikunstructure.databinding.DecoratedTextFragmentBinding
 
 class DecoratedTextFragment : Fragment() {
 
-    lateinit var spannableString:SpannableString
-    lateinit var backgroundSpan:BackgroundColorSpan
+    lateinit var spannableString: SpannableString
+    lateinit var backgroundSpan: BackgroundColorSpan
     val fontSizeSpan = RelativeSizeSpan(1.4f)
 
     lateinit var binding: DecoratedTextFragmentBinding
@@ -28,7 +27,7 @@ class DecoratedTextFragment : Fragment() {
     ): View? {
         binding = DecoratedTextFragmentBinding.inflate(layoutInflater, container, false)
 
-        spannableString= SpannableString(resources.getString(R.string.raw_text))
+        spannableString = SpannableString(resources.getString(R.string.raw_text))
         backgroundSpan = BackgroundColorSpan(resources.getColor(R.color.textBackgroundColor))
 
         binding.decorativeText.text = spannableString
@@ -41,14 +40,14 @@ class DecoratedTextFragment : Fragment() {
         binding.btnScroll.setOnClickListener {
             val line: Int = binding.decorativeText.layout.getLineForOffset(index1)
             val y: Int = binding.decorativeText.layout.getLineTop(line - 3)
-            markText(index1, index1+5)
+            markText(index1, index1 + 5)
             scroll(y)
         }
 
         binding.btnScroll2.setOnClickListener {
             val line: Int = binding.decorativeText.layout.getLineForOffset(index2)
             val y: Int = binding.decorativeText.layout.getLineTop(line - 3)
-            markText(index2, index2+5)
+            markText(index2, index2 + 5)
             scroll(y)
         }
 
@@ -57,7 +56,7 @@ class DecoratedTextFragment : Fragment() {
         return binding.root
     }
 
-    fun markText(start:Int, end:Int){
+    fun markText(start: Int, end: Int) {
         spannableString.removeSpan(backgroundSpan)
         spannableString.removeSpan(fontSizeSpan)
         spannableString.setSpan(backgroundSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
